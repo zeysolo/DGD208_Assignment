@@ -103,7 +103,7 @@ namespace DGD208_Assignment
     {
         public PetType Name { get; set; }
         public Dictionary<PetStat, int> Stats { get; set; }
-        private Timer decayTimer;
+        public Timer decayTimer;
 
 
 
@@ -166,13 +166,15 @@ namespace DGD208_Assignment
             decayTimer.Start();
         }
 
-        private void DecayStats(object sender, ElapsedEventArgs e)
+        public void DecayStats(object sender, ElapsedEventArgs e)
         {
             foreach (var stat in new List<PetStat>(Stats.Keys))
             {
                 Stats[stat] = Math.Max(0, Stats[stat] - 1);
             }
         }
+
+
 
         public void UseItem(Item item)
         {
@@ -196,5 +198,26 @@ namespace DGD208_Assignment
                 Console.WriteLine($"{stat.Key}: {stat.Value}");
             }
         }
+
+        public void ShowArt()
+        {
+            ascii art = new ascii();
+            switch (Name)
+            {
+                case PetType.Resa:
+                    art.ResaArt(); break;
+                case PetType.Leza:
+                    art.LezaArt(); break;
+                case PetType.Mona:
+                    art.MonaArt(); break;
+                case PetType.Luxa:
+                    art.LuxaArt(); break;
+                case PetType.Ophex:
+                    art.OphexArt(); break;
+            }
+        }
+
+
+
     }
 }

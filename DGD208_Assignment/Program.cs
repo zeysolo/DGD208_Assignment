@@ -76,14 +76,23 @@ namespace DGD208_Assignment
         static void Main(string[] args)
         {
 
-
+            ascii art =new ascii(); 
 
             List<Creature> adoptedPets = new List<Creature>();
             List<Item> availableItems = new List<Item>
             {
                 new Item("Blue Milk", ItemType.Food, PetStat.Hunger, 10),
-                new Item("Hunting", ItemType.Toy, PetStat.Fun, 10),
-                new Item("Storytelling", ItemType.Talking, PetStat.Sleep, 10)
+                new Item("Lembas Bread", ItemType.Food, PetStat.Hunger, 10),
+                new Item("Pan Galactic Gargle Blaster", ItemType.Food, PetStat.Hunger, 10),
+
+                new Item("Minotaur Maze", ItemType.Toy, PetStat.Fun, 10),
+                new Item("Chessboard of Fate", ItemType.Toy, PetStat.Fun, 10),
+                new Item("Golden Snitch", ItemType.Toy, PetStat.Fun, 10),
+
+                new Item("Lotus Whisper", ItemType.Talking, PetStat.Sleep, 10),
+                new Item("Scheherazade’s Tale", ItemType.Talking, PetStat.Sleep, 10),
+                new Item("Dreamcatcher", ItemType.Talking, PetStat.Sleep, 10)
+
             };
 
             while (true)
@@ -103,17 +112,25 @@ namespace DGD208_Assignment
                               ░                                                   ░");
 
 
+
+                Console.WriteLine("");
+            
                 Console.WriteLine("1. We have some candy for you inside.");
-                Console.WriteLine("2. View creature stats");
-                Console.WriteLine("3. Use an item on a creature");
-                Console.WriteLine("0. Exit");
+                Console.WriteLine("2. Look at them.");
+                Console.WriteLine("3. Pamper them.");
+                Console.WriteLine("4. Credits.");
+                Console.WriteLine("0. Exit.");
                 Console.Write("Choice: ");
 
                 string choice = Console.ReadLine();
 
+
+
                 switch (choice)
+
+
                 {
-                    case "1":
+                    /*case "1":
                         Console.WriteLine("Which creature would you like to meet?");
                         foreach (PetType type in Enum.GetValues(typeof(PetType)))
                         {
@@ -128,13 +145,78 @@ namespace DGD208_Assignment
                                 adoptedPets.Add(new Creature((PetType)adoptChoice));
 
                         }
+                        break;*/
+
+
+
+                    case "1":
+                        Console.WriteLine("Which creature would you like to meet?");
+                        foreach (PetType type in Enum.GetValues(typeof(PetType)))
+                        {
+                            if (!adoptedPets.Exists(p => p.Name == type))
+                                Console.WriteLine($"{(int)type} - {type}");
+                        }
+
+                        Console.Write("Enter number: ");
+                        int adoptChoice;
+                        if (int.TryParse(Console.ReadLine(), out adoptChoice))
+                        {
+                            if (!adoptedPets.Exists(p => p.Name == (PetType)adoptChoice))
+                            {
+                                Creature newCreature = new Creature((PetType)adoptChoice);
+                                adoptedPets.Add(newCreature);
+
+                                // 👇 ADD THIS: Show info after choosing
+                                Console.Clear();
+                                Console.WriteLine("Say hi.");
+                                newCreature.DisplayStats();
+                                newCreature.ShowArt();
+
+                                Console.WriteLine("Press any key to continue.");
+                                Console.ReadKey();
+                            }
+                            else
+                            {
+                                Console.WriteLine("You've already know.");
+                                Console.ReadKey();
+                            }
+                        }
                         break;
 
+
                     case "2":
-                        foreach (var pet in adoptedPets)
-                            pet.DisplayStats();
+                        if (adoptedPets.Count == 0)
+                        {
+                            Console.WriteLine("You haven't met anyone yet.");
+                        }
+
+
+                        else
+                        {
+                            foreach (var pet in adoptedPets)
+                            {
+                                pet.DisplayStats();
+                                pet.ShowArt();  //  ASCII art
+                                Console.WriteLine(" ");
+             
+                                foreach (var stat in pet.Stats)
+                                {
+                                    if (stat.Value < 35)
+                                    {
+                                        Console.ForegroundColor = ConsoleColor.Green;
+                                        Console.WriteLine($"{pet.Name} is having a hard time with {stat.Key}. ({stat.Value})");
+                                        Console.ResetColor();
+                                    }
+                                }
+                            }
+                        }
+
+                        Console.WriteLine(" ");
+
+                        Console.WriteLine("Press any key to return to menu.");
                         Console.ReadKey();
                         break;
+
 
                     case "3":
                         if (adoptedPets.Count == 0)
@@ -155,6 +237,15 @@ namespace DGD208_Assignment
                         int itemChoice = int.Parse(Console.ReadLine()) - 1;
 
                         adoptedPets[petChoice].UseItem(availableItems[itemChoice]);
+                        break;
+
+
+
+                    case "4":
+                        Console.Clear();
+                        Console.WriteLine("a game by Zeynep Belinay Koçaker.");
+                        Console.WriteLine("Press any key to return to menu.");
+                        Console.ReadKey();
                         break;
 
                     case "0":
