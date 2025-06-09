@@ -123,6 +123,8 @@ namespace DGD208_Assignment
                 Console.WriteLine("0. Exit.");
                 Console.Write("Choice: ");
 
+
+
                 string choice = Console.ReadLine();
 
 
@@ -269,6 +271,17 @@ namespace DGD208_Assignment
                         Console.WriteLine("a game by Zeynep Belinay Koçaker.");
                         Console.WriteLine("subject numb-, ahem, her magic number is 225040046.");
                         Console.WriteLine("");
+
+
+                        Console.WriteLine("");
+                        Console.WriteLine("");
+
+                        Console.WriteLine("");
+                        Console.WriteLine("");
+                        Console.WriteLine("");
+                        Console.WriteLine("");
+
+                        Console.WriteLine("//i am sorry about my repository name. i was afraid that changing it might break the link and cause problems with the submission.");
 
                         Console.WriteLine("Press any key to return to menu.");
                         Console.ReadKey();
