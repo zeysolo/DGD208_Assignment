@@ -62,6 +62,7 @@ namespace DGD208_Assignment
 }
 */
 
+using System.Threading;
 
 using System;
 using System.Collections.Generic;
@@ -81,17 +82,17 @@ namespace DGD208_Assignment
             List<Creature> adoptedPets = new List<Creature>();
             List<Item> availableItems = new List<Item>
             {
-                new Item("Blue Milk", ItemType.Food, PetStat.Hunger, 10),
-                new Item("Lembas Bread", ItemType.Food, PetStat.Hunger, 10),
-                new Item("Pan Galactic Gargle Blaster", ItemType.Food, PetStat.Hunger, 10),
+                new Item("Blue Milk", ItemType.Food, PetStat.Hunger, 10,3000),
+                new Item("Lembas Bread", ItemType.Food, PetStat.Hunger, 10,3000),
+                new Item("Pan Galactic Gargle Blaster", ItemType.Food, PetStat.Hunger, 10,3000),
 
-                new Item("Minotaur Maze", ItemType.Toy, PetStat.Fun, 10),
-                new Item("Chessboard of Fate", ItemType.Toy, PetStat.Fun, 10),
-                new Item("Golden Snitch", ItemType.Toy, PetStat.Fun, 10),
+                new Item("Minotaur Maze", ItemType.Toy, PetStat.Fun, 10,3000),
+                new Item("Chessboard of Fate", ItemType.Toy, PetStat.Fun, 10,3000),
+                new Item("Golden Snitch", ItemType.Toy, PetStat.Fun, 10,3000),
 
-                new Item("Lotus Whisper", ItemType.Talking, PetStat.Sleep, 10),
-                new Item("Scheherazade’s Tale", ItemType.Talking, PetStat.Sleep, 10),
-                new Item("Dreamcatcher", ItemType.Talking, PetStat.Sleep, 10)
+                new Item("Lotus Whisper", ItemType.Talking, PetStat.Sleep, 10,3000),
+                new Item("Scheherazade’s Tale", ItemType.Talking, PetStat.Sleep, 10,3000),
+                new Item("Dreamcatcher", ItemType.Talking, PetStat.Sleep, 10,3000)
 
             };
 
@@ -189,33 +190,50 @@ namespace DGD208_Assignment
                         {
                             Console.WriteLine("You haven't met anyone yet.");
                         }
-
-
                         else
                         {
+                            List<Creature> petsToRemove = new List<Creature>();
+
                             foreach (var pet in adoptedPets)
                             {
                                 pet.DisplayStats();
-                                pet.ShowArt();  //  ASCII art
+                                pet.ShowArt();
                                 Console.WriteLine(" ");
-             
+
+                                bool isDead = false;
                                 foreach (var stat in pet.Stats)
                                 {
-                                    if (stat.Value < 35)
+                                    if (stat.Value < 35 && stat.Value > 0)
                                     {
                                         Console.ForegroundColor = ConsoleColor.Green;
                                         Console.WriteLine($"{pet.Name} is having a hard time with {stat.Key}. ({stat.Value})");
                                         Console.ResetColor();
                                     }
+                                    if (stat.Value <= 0)
+                                    {
+                                        isDead = true;
+                                    }
                                 }
+
+                                if (isDead)
+                                {
+                                    Console.ForegroundColor = ConsoleColor.Red;
+                                    Console.WriteLine($"{pet.Name} has died because one of its stats reached 0!");
+                                    Console.ResetColor();
+                                    petsToRemove.Add(pet);
+                                }
+                            }
+
+                            foreach (var pet in petsToRemove)
+                            {
+                                adoptedPets.Remove(pet);
                             }
                         }
 
-                        Console.WriteLine(" ");
-
-                        Console.WriteLine("Press any key to return to menu.");
+                        Console.WriteLine("\nPress any key to return to menu.");
                         Console.ReadKey();
                         break;
+
 
 
                     case "3":
@@ -237,6 +255,11 @@ namespace DGD208_Assignment
                         int itemChoice = int.Parse(Console.ReadLine()) - 1;
 
                         adoptedPets[petChoice].UseItem(availableItems[itemChoice]);
+                        adoptedPets[petChoice].UseItem(availableItems[itemChoice]);
+
+                        // waiting for the item's duration
+                        System.Threading.Thread.Sleep(availableItems[itemChoice].Duration); // its milisecond
+
                         break;
 
 
@@ -244,6 +267,9 @@ namespace DGD208_Assignment
                     case "4":
                         Console.Clear();
                         Console.WriteLine("a game by Zeynep Belinay Koçaker.");
+                        Console.WriteLine("subject numb-, ahem, her magic number is 225040046.");
+                        Console.WriteLine("");
+
                         Console.WriteLine("Press any key to return to menu.");
                         Console.ReadKey();
                         break;

@@ -46,12 +46,15 @@ namespace DGD208_Assignment
         public PetStat AffectedStat { get; set; }
         public int EffectAmount { get; set; }
 
-        public Item(string name, ItemType type, PetStat stat, int amount)
+        public int Duration { get; set; } = 0; // Default duration is 0, meaning no time limit
+
+        public Item(string name, ItemType type, PetStat stat, int amount, int duration)
         {
             Name = name;
             Type = type;
             AffectedStat = stat;
             EffectAmount = amount;
+            Duration = duration;
         }
     }
 }
